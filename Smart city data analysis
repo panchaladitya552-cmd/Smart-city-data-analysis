@@ -1,0 +1,258 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOdVzv8rO6uRGTi83BkNs8i",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/panchaladitya552-cmd/Smart-city-data-analysis/blob/main/Smart%20city%20data%20analysis\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "city_data = [\n",
+        "    [\"A1\", 1540, 120],\n",
+        "    [\"B2\", 980, 95],\n",
+        "    [\"C3\", 2300, 170],\n",
+        "    [\"A1\", 1400, 115],\n",
+        "    [\"C3\", 2500, 180],\n",
+        "    [\"B2\", 1020, 100],\n",
+        "    [\"D4\", 800, 85],\n",
+        "    [\"E5\", 2600, 190],\n",
+        "    [\"A1\", 1600, 130],\n",
+        "    [\"C3\", 2100, 160]\n",
+        "]\n",
+        "\n",
+        "\n",
+        "junction_data = {}\n",
+        "for record in city_data:\n",
+        "    junction = record[0]\n",
+        "    vehicles = record[1]\n",
+        "    aqi = record[2]\n",
+        "\n",
+        "    if junction not in junction_data:\n",
+        "        junction_data[junction] = {\n",
+        "            \"vehicles_total\": 0,\n",
+        "            \"aqi_total\": 0,\n",
+        "            \"count\": 0\n",
+        "        }\n",
+        "\n",
+        "    junction_data[junction][\"vehicles_total\"] += vehicles\n",
+        "    junction_data[junction][\"aqi_total\"] += aqi\n",
+        "    junction_data[junction][\"count\"] += 1\n",
+        "\n",
+        "\n",
+        "print(\"Total number of records:\", len(city_data))\n",
+        "\n",
+        "\n",
+        "print(\"\\nUnique Junctions:\")\n",
+        "for junction in junction_data:\n",
+        "    print(junction)\n",
+        "\n",
+        "\n",
+        "highest_avg_aqi = 0\n",
+        "highest_avg_vehicle = 0\n",
+        "\n",
+        "most_polluted = \"\"\n",
+        "busiest = \"\"\n",
+        "\n",
+        "print(\"\\nJunction Analysis:\")\n",
+        "\n",
+        "for junction in junction_data:\n",
+        "\n",
+        "    total_vehicles = junction_data[junction][\"vehicles_total\"]\n",
+        "    total_aqi = junction_data[junction][\"aqi_total\"]\n",
+        "    count = junction_data[junction][\"count\"]\n",
+        "\n",
+        "    avg_vehicles = total_vehicles / count\n",
+        "    avg_aqi = total_aqi / count\n",
+        "\n",
+        "\n",
+        "    if avg_aqi <= 100:\n",
+        "        air_quality = \"Good\"\n",
+        "    elif avg_aqi <= 150:\n",
+        "        air_quality = \"Moderate\"\n",
+        "    else:\n",
+        "        air_quality = \"Poor\"\n",
+        "\n",
+        "    print(\"\\nJunction:\", junction)\n",
+        "    print(\"Average Vehicles:\", round(avg_vehicles, 2))\n",
+        "    print(\"Average AQI:\", round(avg_aqi, 2))\n",
+        "    print(\"Air Quality Level:\", air_quality)\n",
+        "\n",
+        "    # Find most polluted junction\n",
+        "    if avg_aqi > highest_avg_aqi:\n",
+        "        highest_avg_aqi = avg_aqi\n",
+        "        most_polluted = junction\n",
+        "\n",
+        "    # Find busiest junction\n",
+        "    if avg_vehicles > highest_avg_vehicle:\n",
+        "        highest_avg_vehicle = avg_vehicles\n",
+        "        busiest = junction\n",
+        "\n",
+        "# 4. Final Results\n",
+        "print(\"\\nMost Polluted Junction:\", most_polluted)\n",
+        "print(\"Highest Average AQI:\", round(highest_avg_aqi, 2))\n",
+        "\n",
+        "print(\"\\nBusiest Junction:\", busiest)\n",
+        "print(\"Highest Average Vehicle Count:\", round(highest_avg_vehicle, 2))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "NQCVwzLR1M75",
+        "outputId": "32d8afa7-e0b6-41a4-8138-0d70832e6dd4"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Total number of records: 10\n",
+            "\n",
+            "Unique Junctions:\n",
+            "A1\n",
+            "B2\n",
+            "C3\n",
+            "D4\n",
+            "E5\n",
+            "\n",
+            "Junction Analysis:\n",
+            "\n",
+            "Junction: A1\n",
+            "Average Vehicles: 1513.33\n",
+            "Average AQI: 121.67\n",
+            "Air Quality Level: Moderate\n",
+            "\n",
+            "Junction: B2\n",
+            "Average Vehicles: 1000.0\n",
+            "Average AQI: 97.5\n",
+            "Air Quality Level: Good\n",
+            "\n",
+            "Junction: C3\n",
+            "Average Vehicles: 2300.0\n",
+            "Average AQI: 170.0\n",
+            "Air Quality Level: Poor\n",
+            "\n",
+            "Junction: D4\n",
+            "Average Vehicles: 800.0\n",
+            "Average AQI: 85.0\n",
+            "Air Quality Level: Good\n",
+            "\n",
+            "Junction: E5\n",
+            "Average Vehicles: 2600.0\n",
+            "Average AQI: 190.0\n",
+            "Air Quality Level: Poor\n",
+            "\n",
+            "Most Polluted Junction: E5\n",
+            "Highest Average AQI: 190.0\n",
+            "\n",
+            "Busiest Junction: E5\n",
+            "Highest Average Vehicle Count: 2600.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def ac(a,b,c):\n",
+        " a= c+b\n",
+        " c=44\n",
+        " print(a,c)\n",
+        "\n",
+        "x=3\n",
+        "y=2\n",
+        "z=100\n",
+        "ac(z,x,y)\n",
+        "print(x,y,z)"
+      ],
+      "metadata": {
+        "id": "E3C1lwXH6bgb",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "b99ed6fc-fcf6-4136-de75-bfd53a7ff5c8"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "5 44\n",
+            "3 2 100\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def ac(a,b,c):\n",
+        " a= c+b\n",
+        " c=44\n",
+        "\n",
+        "\n",
+        "a=3\n",
+        "b=2\n",
+        "c=100\n",
+        "ac(a,b,c)\n",
+        "print(a,b,c)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "YsBg-t7hUswr",
+        "outputId": "2dee3de8-84dd-4f8a-bef0-c57c04e3ad76"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "3 2 100\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "a= int(input(\"enter the numbers\"))\n",
+        "\n",
+        "def a\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "SXgXZZZSVhdD"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
